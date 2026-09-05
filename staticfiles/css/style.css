@@ -400,3 +400,73 @@ h1, .brand {
     margin-bottom: 0.3rem;
     text-align: justify;
 }
+
+.experience-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.exp-card {
+    background-color: #ffffff;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.exp-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--accent);
+}
+
+.exp-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 0.75rem;
+}
+
+.exp-card h3 {
+    font-family: "Space Grotesk", -apple-system, sans-serif;
+    font-size: 1.25rem;
+    color: var(--ink);
+    margin-bottom: 0.2rem;
+}
+
+.exp-org {
+    font-size: 0.9rem;
+    color: var(--accent-dark);
+    font-weight: 600;
+}
+
+.exp-year {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    white-space: nowrap;
+    background-color: var(--paper);
+    padding: 0.2rem 0.6rem;
+    border-radius: var(--radius);
+    border: 1px solid var(--line);
+}
+
+.exp-desc {
+    padding-left: 1.2rem;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    line-height: 1.6;
+}
+
+.exp-desc li {
+    margin-bottom: 0.35rem;
+    text-align: justify;
+}
+
+@media (max-width: 600px) {
+    .exp-header {
+        flex-direction: column;
+        gap: 0.4rem;
+    }
+}
