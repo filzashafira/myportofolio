@@ -401,10 +401,11 @@ h1, .brand {
     text-align: justify;
 }
 
-.experience-list {
+.experience-list,
+.projects-list {
     display: flex;
     flex-direction: column;
-    gap: 1.25rem;
+    gap: 1.5rem;
 }
 
 .exp-card {
