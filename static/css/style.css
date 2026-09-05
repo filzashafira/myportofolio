@@ -257,6 +257,7 @@ h1, .brand {
     color: var(--text-muted);
     font-size: 0.95rem;
     line-height: 1.6;
+    text-align: justify;
 }
 
 @media (max-width: 600px) {
