@@ -12,7 +12,7 @@ Tugas 1
 2. Tantangan Tata Letak CSS Responsive:
    Tantangan terbesarnya ngatur tata letak yang ada gambarnya, kayak logo di Education serta foto di Experience dan Projects. Di laptop posisinya rapi di samping teks, tapi di layar HP jadi sempit dan dorong tulisan.
    
-   Cara ngatasinya, aku gunain Flexbox media queries. Posisi gambar di HP diubah dari samping jadi menumpuk di atas teks, terus ukuran gambar sama padding-nya diperkecil dikit. Teks tetap diprioritaskan ukurannya biar nyaman dibaca tanpa bikin layout kepotong ke samping.
+   Cara ngatasinya, aku gunain Flexbox media queries. Posisi gambar di HP diubah dari samping jadi menumpuk di atas teks, terus ukuran gambar sama padding-nya diperkecil dikit dan tentu saja teks tetap diprioritaskan ukurannya biar nyaman dibaca tanpa bikin layout kepotong ke samping.
 
 
 3. Batasan Static Web & Fungsionalitas Dinamis yang Diinginkan:
