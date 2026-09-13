@@ -9,8 +9,7 @@ def show_main(request):
         "npm": "2506623641",
         "study_program": "S1 Sistem Informasi",
         "bio": (
-            "Mahasiswa Sistem Informasi Universitas Indonesia yang tertarik "
-            "pada pengembangan perangkat lunak dan pendidikan."
+            "A highly motivated and growth-minded individual with a deep curiosity in technology, science, and business. Known for strong public speaking skills, critical thinking, and a proactive mindset. I thrive in dynamic environments that  challenge me to learn, adapt, and contribute meaningfully. With a solid foundation in analytical thinking and  communication, I am eager to expand my capabilities and make a positive impact through both academic and real-world experiences."
         ),
     }
     return render(request, "index.html", context)

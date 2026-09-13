@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
     <header class="site-header">
@@ -21,7 +22,6 @@
     </header>
 
     <main>
-        
         <section class="hero" id="profile">
             <div class="container hero-grid">
                 <div class="hero-identity">
@@ -30,7 +30,7 @@
                 </div>
                 <div class="hero-photo">
                     <div class="photo-block"></div>
-                    <img class="avatar" src="/static/img/filza.png" alt="Photo of {{ name }}">
+                    <img class="avatar" src="{% static 'img/filza.png' %}" alt="Photo of {{ name }}">
                 </div>
                 <div class="hero-details">
                     <p class="bio">{{ bio }}</p>
@@ -53,15 +53,12 @@
             </div>
         </section>
 
-        
         <section id="education" class="skills-section">
             <div class="container">
                 <h2>Education</h2>
                 <div class="education-list">
-                    
-                    
                     <div class="education-item">
-                        <img src="/static/img/UI.png" alt="Logo UI" class="edu-logo">
+                        <img src="{% static 'img/UI.png' %}" alt="Logo UI" class="edu-logo">
                         <div class="edu-details">
                             <h3>Universitas Indonesia</h3>
                             <p class="edu-degree">Information Systems major &middot; Faculty of Computer Science</p>
@@ -69,9 +66,8 @@
                         </div>
                     </div>
 
-                    
                     <div class="education-item">
-                        <img src="/static/img/smaeli.png" alt="Logo SMAN 5 Parepare" class="edu-logo">
+                        <img src="{% static 'img/smaeli.png' %}" alt="Logo SMAN 5 Parepare" class="edu-logo">
                         <div class="edu-details">
                             <h3>SMA Negeri 5 Parepare</h3>
                             <p class="edu-degree">IPA</p>
@@ -80,7 +76,7 @@
                     </div>
 
                     <div class="education-item">
-                        <img src="/static/img/spentwo.jpeg" alt="Logo SMP Negeri 2 Parepare" class="edu-logo">
+                        <img src="{% static 'img/spentwo.jpeg' %}" alt="Logo SMP Negeri 2 Parepare" class="edu-logo">
                         <div class="edu-details">
                             <h3>SMP Negeri 2 Parepare</h3>
                             <p class="edu-degree">IPA</p>
@@ -89,14 +85,13 @@
                     </div>
 
                     <div class="education-item">
-                        <img src="/static/img/sd.png" alt="Logo SD Negeri 71 Parepare" class="edu-logo">
+                        <img src="{% static 'img/sd.png' %}" alt="Logo SD Negeri 71 Parepare" class="edu-logo">
                         <div class="edu-details">
                             <h3>SD Negeri 71 Parepare</h3>
                             <p class="edu-degree">IPA</p>
                             <p class="edu-year">2013 &ndash; 2019</p>
                         </div>
                     </div>
-
                 </div>
             </div>
         </section>
@@ -105,7 +100,6 @@
             <div class="container">
                 <h2>Organizational & Leadership Experience</h2>
                 <div class="experience-list">
-
                     <article class="exp-card">
                         <div class="exp-body">
                             <div class="exp-text">
@@ -121,7 +115,7 @@
                                 </ul>
                             </div>
                             <div class="exp-media">
-                                <img src="/static/img/PR.jpeg" alt="Documentation Staff PR" class="exp-img">
+                                <img src="{% static 'img/PR.jpeg' %}" alt="Documentation Staff PR" class="exp-img">
                             </div>
                         </div>
                     </article>
@@ -141,7 +135,7 @@
                                 </ul>
                             </div>
                             <div class="exp-media">
-                                <img src="/static/img/coordinator.jpeg" alt="Documentation Coordinator Event" class="exp-img">
+                                <img src="{% static 'img/coordinator.jpeg' %}" alt="Documentation Coordinator Event" class="exp-img">
                             </div>
                         </div>
                     </article>
@@ -161,7 +155,7 @@
                                 </ul>
                             </div>
                             <div class="exp-media">
-                                <img src="/static/img/mc.jpeg" alt="Documentation MC" class="exp-img">
+                                <img src="{% static 'img/mc.jpeg' %}" alt="Documentation MC" class="exp-img">
                             </div>
                         </div>
                     </article>
@@ -181,21 +175,18 @@
                                 </ul>
                             </div>
                             <div class="exp-media">
-                                <img src="/static/img/narrator.jpeg" alt="Documentation Narrator" class="exp-img">
+                                <img src="{% static 'img/narrator.jpeg' %}" alt="Documentation Narrator" class="exp-img">
                             </div>
                         </div>
                     </article>
-
                 </div>
             </div>
         </section>
 
-        
         <section id="awards" class="skills-section">
             <div class="container">
                 <h2>Awards</h2>
                 <div class="awards-list">
-
                     <article class="award-card">
                         <div class="award-header">
                             <span class="award-badge">2nd Winner</span>
@@ -257,7 +248,6 @@
                             <li>Selected as a participant representing institution in a national-level essay competition.</li>
                         </ul>
                     </article>
-
                 </div>
             </div>
         </section>
@@ -266,7 +256,6 @@
             <div class="container">
                 <h2>Project</h2>
                 <div class="projects-list">
-
                     <article class="exp-card">
                         <div class="exp-body">
                             <div class="exp-text">
@@ -280,11 +269,10 @@
                                 </p>
                             </div>
                             <div class="exp-media">
-                                <img src="/static/img/project.png" alt="ECO SMART Project Documentation" class="exp-img">
+                                <img src="{% static 'img/project.png' %}" alt="ECO SMART Project Documentation" class="exp-img">
                             </div>
                         </div>
                     </article>
-
                 </div>
             </div>
         </section>
@@ -308,7 +296,6 @@
                 </div>
             </div>
         </section>
-
     </main>
 
     <footer class="site-footer">
