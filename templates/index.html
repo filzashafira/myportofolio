@@ -11,6 +11,12 @@
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
+
+    <!-- 1. TAMBAHKAN OVERLAY INI DI SINI (Tepat di bawah tag <body>) -->
+    <div id="welcome-overlay">
+        <h1 class="welcome-text">HELLO!</h1>
+    </div>
+
     <header class="site-header">
         <div class="container">
             <a href="{% url 'main:show_main' %}" class="brand">{{ name }}</a>
@@ -303,5 +309,17 @@
             <p>&copy; 2026 {{ name }}. Fakultas Ilmu Komputer, Universitas Indonesia.</p>
         </div>
     </footer>
+
+    <!-- 2. TAMBAHKAN SCRIPT INI DI SINI (Tepat sebelum tag penutup </body>) -->
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                const overlay = document.getElementById('welcome-overlay');
+                if (overlay) {
+                    overlay.remove();
+                }
+            }, 2800);
+        });
+    </script>
 </body>
 </html>
