@@ -108,9 +108,42 @@ h1, .brand {
 .hero-identity h1 {
     font-size: clamp(3rem, 7vw, 5rem);
     line-height: 0.95;
+    
+    /* Gradasi warna di dalam teks & stroke cyan */
+    background: linear-gradient(110deg, var(--cyan-glow) 30%, #ffffff 50%, var(--cyan-glow) 70%);
+    background-size: 200% linear;
+    -webkit-background-clip: text;
+    background-clip: text;
     color: transparent;
     -webkit-text-stroke: 1.5px var(--cyan-glow);
-    text-shadow: 0 0 15px rgba(0, 240, 255, 0.3);
+    
+    /* Otomatis jalan tanpa perlu hover/disentuh */
+    animation: 
+        shineText 3s linear infinite,
+        pulseGlow 2.5s ease-in-out infinite alternate;
+}
+
+/* Keyframes 1: Cahaya mengalir di dalam teks */
+@keyframes shineText {
+    0% {
+        background-position: 200% 0;
+    }
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+/* Keyframes 2: Efek neon berdenyut (glowing) */
+@keyframes pulseGlow {
+    0% {
+        text-shadow: 0 0 10px rgba(0, 240, 255, 0.4), 0 0 20px rgba(0, 240, 255, 0.2);
+    }
+    50% {
+        text-shadow: 0 0 25px rgba(0, 240, 255, 0.9), 0 0 40px rgba(0, 240, 255, 0.6);
+    }
+    100% {
+        text-shadow: 0 0 12px rgba(0, 240, 255, 0.5), 0 0 22px rgba(0, 240, 255, 0.3);
+    }
 }
 
 .bio {
@@ -123,6 +156,27 @@ h1, .brand {
     padding: 1.25rem;
     border-radius: var(--radius);
     box-shadow: inset 0 0 15px rgba(0, 240, 255, 0.05);
+
+    /* --- TAMBAHAN EFEK 3D --- */
+    position: relative;
+    cursor: pointer;
+    transform-style: preserve-3d;
+    perspective: 1000px;
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
+                box-shadow 0.4s ease, 
+                border-color 0.4s ease;
+}
+
+.bio:hover {
+    /* Mengangkat elemen ke depan (3D), sedikit membesar, & miring halus */
+    transform: translateY(-8px) translateZ(20px) rotateX(4deg) rotateY(-2deg);
+    
+    /* Mengubah border dan menambah bayangan glowing 3D */
+    border-color: var(--cyan-glow);
+    box-shadow: 
+        0 15px 30px rgba(0, 0, 0, 0.5),
+        0 0 25px rgba(0, 240, 255, 0.35),
+        inset 0 0 20px rgba(0, 240, 255, 0.15);
 }
 
 .meta-list {
