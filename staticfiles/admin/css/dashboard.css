@@ -1,6 +1,5 @@
 /* DASHBOARD */
-.dashboard td,
-.dashboard th {
+.dashboard td, .dashboard th {
     word-break: break-word;
 }
 
@@ -14,8 +13,10 @@
 
 .dashboard .module table td a {
     display: block;
-    padding-right: 0.6em;
+    padding-right: .6em;
 }
+
+/* RECENT ACTIONS MODULE */
 
 .module ul.actionlist {
     margin-left: 0;
