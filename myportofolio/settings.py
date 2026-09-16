@@ -69,8 +69,8 @@ ROOT_URLCONF = 'myportofolio.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates'],
-        'APP_DIRS': True,
+        'DIRS': [BASE_DIR / 'templates'],  # Pastikan baris ini ada
+        'APP_DIRS': True,                  # Pastikan bernilai True
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.request',
@@ -142,3 +142,6 @@ MAILERS = {
         'BACKEND': 'django.core.mail.backends.console.EmailBackend',
     },
 }
+
+# gunakan https:// untuk trailing urlnya
+CSRF_TRUSTED_ORIGINS = ["https://filza-shafira-myportfolio.pws.cs.ui.ac.id"]
