@@ -1,0 +1,281 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<main>
+    <section class="hero" id="profile">
+        <div class="container hero-grid">
+            <div class="hero-identity">
+                <p class="hero-kicker">Information System &middot; Universitas Indonesia</p>
+                <h1>{{ name }}</h1>
+            </div>
+            <div class="hero-photo">
+                <div class="photo-block"></div>
+                <img class="avatar" src="{% static 'img/filza.png' %}" alt="Photo of {{ name }}">
+            </div>
+            <div class="hero-details">
+                <p class="bio">{{ bio }}</p>
+                <dl class="meta-list">
+                    <div class="meta-row">
+                        <dt>NPM</dt>
+                        <dd>{{ npm }}</dd>
+                    </div>
+                    <div class="meta-row">
+                        <dt>Program</dt>
+                        <dd>{{ study_program }}</dd>
+                    </div>
+                </dl>
+                <div class="social-links">
+                    <a href="https://github.com/filzashafira" class="social-link">GitHub</a>
+                    <a href="https://www.linkedin.com/in/filzashfrr" class="social-link">LinkedIn</a>
+                    <a href="mailto:filza.shafira@ui.ac.id" class="social-link">Email</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="education" class="skills-section">
+        <div class="container">
+            <h2>Education</h2>
+            <div class="education-list">
+                <div class="education-item">
+                    <img src="{% static 'img/UI.png' %}" alt="Logo UI" class="edu-logo">
+                    <div class="edu-details">
+                        <h3>Universitas Indonesia</h3>
+                        <p class="edu-degree">Information Systems major &middot; Faculty of Computer Science</p>
+                        <p class="edu-year">2025 &ndash; Present</p>
+                    </div>
+                </div>
+
+                <div class="education-item">
+                    <img src="{% static 'img/smaeli.png' %}" alt="Logo SMAN 5 Parepare" class="edu-logo">
+                    <div class="edu-details">
+                        <h3>SMA Negeri 5 Parepare</h3>
+                        <p class="edu-degree">IPA</p>
+                        <p class="edu-year">2022 &ndash; 2025</p>
+                    </div>
+                </div>
+
+                <div class="education-item">
+                    <img src="{% static 'img/spentwo.jpeg' %}" alt="Logo SMP Negeri 2 Parepare" class="edu-logo">
+                    <div class="edu-details">
+                        <h3>SMP Negeri 2 Parepare</h3>
+                        <p class="edu-degree">IPA</p>
+                        <p class="edu-year">2019 &ndash; 2022</p>
+                    </div>
+                </div>
+
+                <div class="education-item">
+                    <img src="{% static 'img/sd.png' %}" alt="Logo SD Negeri 71 Parepare" class="edu-logo">
+                    <div class="edu-details">
+                        <h3>SD Negeri 71 Parepare</h3>
+                        <p class="edu-degree">IPA</p>
+                        <p class="edu-year">2013 &ndash; 2019</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="experience" class="skills-section">
+        <div class="container">
+            <h2>Organizational & Leadership Experience</h2>
+            <div class="experience-list">
+                <article class="exp-card">
+                    <div class="exp-body">
+                        <div class="exp-text">
+                            <div class="exp-header">
+                                <h3>Staff of Public Relations</h3>
+                                <span class="exp-year">2025</span>
+                            </div>
+                            <p class="exp-org">Open House Fasilkom UI 2025 &middot; Universitas Indonesia, Depok</p>
+                            <ul class="exp-desc">
+                                <li>Selected as part of the Public Relations division to support communication and promotion strategies.</li>
+                                <li>Responsible for crafting and distributing event information to external audiences, including high school students and the public.</li>
+                                <li>Collaborating with cross-functional teams to ensure consistent branding and smooth information flow.</li>
+                            </ul>
+                        </div>
+                        <div class="exp-media">
+                            <img src="{% static 'img/PR.jpeg' %}" alt="Documentation Staff PR" class="exp-img">
+                        </div>
+                    </div>
+                </article>
+
+                <article class="exp-card">
+                    <div class="exp-body">
+                        <div class="exp-text">
+                            <div class="exp-header">
+                                <h3>Coordinator of Event Division</h3>
+                                <span class="exp-year">2022 &ndash; 2025</span>
+                            </div>
+                            <p class="exp-org">SMAELI Community of Parepare English &middot; SMAN 5 Parepare</p>
+                            <ul class="exp-desc">
+                                <li>Led and managed event planning and execution for major organizational activities.</li>
+                                <li>Coordinated with team members to organize school activities and English-related events.</li>
+                                <li>Strengthened leadership, organizational, and strategic communication skills.</li>
+                            </ul>
+                        </div>
+                        <div class="exp-media">
+                            <img src="{% static 'img/coordinator.jpeg' %}" alt="Documentation Coordinator Event" class="exp-img">
+                        </div>
+                    </div>
+                </article>
+
+                <article class="exp-card">
+                    <div class="exp-body">
+                        <div class="exp-text">
+                            <div class="exp-header">
+                                <h3>Master of Ceremony (MC)</h3>
+                                <span class="exp-year">2022 &ndash; 2025</span>
+                            </div>
+                            <p class="exp-org">Monday Flag Ceremonies & English Events &middot; SMAN 5 Parepare</p>
+                            <ul class="exp-desc">
+                                <li>Hosted weekly Monday flag ceremonies, delivering announcements and leading formal proceedings in front of students and staff.</li>
+                                <li>Served as MC for English-themed school events, showcasing strong communication skills in both Indonesian and English.</li>
+                                <li>Developed confidence, stage presence, and effective public speaking abilities under live settings.</li>
+                            </ul>
+                        </div>
+                        <div class="exp-media">
+                            <img src="{% static 'img/mc.jpeg' %}" alt="Documentation MC" class="exp-img">
+                        </div>
+                    </div>
+                </article>
+
+                <article class="exp-card">
+                    <div class="exp-body">
+                        <div class="exp-text">
+                            <div class="exp-header">
+                                <h3>Event Narrator</h3>
+                                <span class="exp-year">2024</span>
+                            </div>
+                            <p class="exp-org">Kurikulum Merdeka Showcase &middot; SMAN 5 Parepare</p>
+                            <ul class="exp-desc">
+                                <li>Acted as narrator in 4 major school events under the Kurikulum Merdeka program.</li>
+                                <li>Coordinated with event organizers and performers to ensure smooth transitions and clear storytelling.</li>
+                                <li>Enhanced vocal delivery, timing, and audience engagement during live performances.</li>
+                            </ul>
+                        </div>
+                        <div class="exp-media">
+                            <img src="{% static 'img/narrator.jpeg' %}" alt="Documentation Narrator" class="exp-img">
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <section id="awards" class="skills-section">
+        <div class="container">
+            <h2>Awards</h2>
+            <div class="awards-list">
+                <article class="award-card">
+                    <div class="award-header">
+                        <span class="award-badge">2nd Winner</span>
+                        <span class="award-year">2024</span>
+                    </div>
+                    <h3>Appropriate Technology Competition</h3>
+                    <p class="award-issuer">Universitas Islam Negeri Alauddin Makassar &middot; Provincial Level</p>
+                    <ul class="award-desc">
+                        <li>Advanced through several competitive rounds and achieved 2nd place for innovative appropriate technology.</li>
+                        <li>Collaborated in designing and presenting a practical model addressing community needs.</li>
+                    </ul>
+                </article>
+
+                <article class="award-card">
+                    <div class="award-header">
+                        <span class="award-badge">3rd Winner</span>
+                        <span class="award-year">2023</span>
+                    </div>
+                    <h3>Musabaqah Syarhil Qur’an</h3>
+                    <p class="award-issuer">Universitas Islam Negeri Alauddin Makassar &middot; Provincial Level</p>
+                    <ul class="award-desc">
+                        <li>Achieved 3rd place among top provincial participants in Qur’anic speech and interpretation.</li>
+                        <li>Demonstrated strong public speaking, interpretation, and teamwork skills.</li>
+                    </ul>
+                </article>
+
+                <article class="award-card">
+                    <div class="award-header">
+                        <span class="award-badge gold">Gold Medalist</span>
+                        <span class="award-year">2025</span>
+                    </div>
+                    <h3>Biology Competition</h3>
+                    <p class="award-issuer">Liga Olimpiade &middot; National Level</p>
+                    <ul class="award-desc">
+                        <li>Awarded Gold Medal for outstanding performance in problem-solving and biological analysis.</li>
+                    </ul>
+                </article>
+
+                <article class="award-card">
+                    <div class="award-header">
+                        <span class="award-badge neutral">Top 5 Finalist</span>
+                        <span class="award-year">2024</span>
+                    </div>
+                    <h3>Esai Competition</h3>
+                    <p class="award-issuer">Universitas Islam Negeri Alauddin Makassar &middot; Provincial Level</p>
+                    <ul class="award-desc">
+                        <li>Reached the Top 5 Finalists for delivering an impactful essay with critical analysis and creative writing.</li>
+                    </ul>
+                </article>
+
+                <article class="award-card">
+                    <div class="award-header">
+                        <span class="award-badge neutral">Participant</span>
+                        <span class="award-year">2024</span>
+                    </div>
+                    <h3>Esai Competition</h3>
+                    <p class="award-issuer">Universitas Airlangga &middot; National Level</p>
+                    <ul class="award-desc">
+                        <li>Selected as a participant representing institution in a national-level essay competition.</li>
+                    </ul>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <section id="projects" class="skills-section">
+        <div class="container">
+            <h2>Project</h2>
+            <div class="projects-list">
+                <article class="exp-card">
+                    <div class="exp-body">
+                        <div class="exp-text">
+                            <div class="exp-header">
+                                <h3>ECO SMART: Eco-Enzyme Soap Innovation</h3>
+                                <span class="exp-year">2024</span>
+                            </div>
+                            <p class="exp-org">Appropriate Technology & Sustainable Innovation Project</p>
+                            <p style="color: #222; font-size: 0.95rem; line-height: 1.6; text-align: justify; margin-top: 0.75rem;">
+                                Initiated <strong>ECO SMART (Effective and Careful with Eco Enzyme)</strong>, an innovative solution transforming organic waste into eco-friendly soap to support the Sustainable Development Goals (SDGs). Led formulation testing and end-to-end production to deliver a practical, high-value product for waste reduction and community sustainability.
+                            </p>
+                        </div>
+                        <div class="exp-media">
+                            <img src="{% static 'img/project.png' %}" alt="ECO SMART Project Documentation" class="exp-img">
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <section id="skills" class="skills-section">
+        <div class="container">
+            <h2>Skills</h2>
+            <div class="skills-container">
+                <article class="skill-card">
+                    <h3>Public Speaking</h3>
+                    <p>Possesses effective verbal communication skills for presenting ideas in public, hosting events, and speaking at various formal and informal gatherings.</p>
+                </article>
+                <article class="skill-card">
+                    <h3>Video Editing</h3>
+                    <p>Experienced in creating visual content and editing videos to produce engaging, informative, and communicative audiovisual media.</p>
+                </article>
+                <article class="skill-card">
+                    <h3>Writing Scientific Papers</h3>
+                    <p>Capable of structuring ideas and concepts through scholarly writing that is systematic, critical, and grounded in academic standards.</p>
+                </article>
+            </div>
+        </div>
+    </section>
+</main>
+{% endblock content %}

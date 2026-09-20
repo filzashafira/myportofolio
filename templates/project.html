@@ -1,7 +1,9 @@
 {% extends "base.html" %}
+
 {% block meta %}
     <title>Projects - {{ name }}</title>
 {% endblock meta %}
+
 {% block content %}
     <main>
         <section class="experience-section" id="experience">
@@ -28,7 +30,10 @@
                 </form>
                 <div class="experience-grid project-grid">
                     {% for project in project_list %}
-                        <article class="experience-card">
+                        <!-- Kartu Proyek Utama (Diklik untuk Buka Modal Detail) -->
+                        <article class="experience-card" 
+                                 onclick="document.getElementById('details-modal-{{ project.id }}').showModal()"
+                                 style="cursor: pointer;">
                             {% if project.project_image_url %}
                                 <img src="{{ project.project_image_url }}"
                                      alt="Gambar {{ project.title }}"
@@ -36,16 +41,54 @@
                             {% endif %}
                             <h2>{{ project.title }}</h2>
                             <span class="experience-category">{{ project.tech_stack }}</span>
-                            <p class="experience-description">{{ project.description }}</p>
+                            <p class="experience-description">{{ project.description|truncatewords:12 }}</p>
                             <div class="project-card-actions">
-                                <div class="project-actions">
+                                <div class="project-actions" onclick="event.stopPropagation();">
                                     {% if project.project_url %}
-                                        <a href="{{ project.project_url }}" class="button">Lihat Project</a>
+                                        <a href="{{ project.project_url }}" target="_blank" class="button">Lihat Project</a>
                                     {% endif %}
                                     {% include "components/project_delete_modal.html" with project=project %}
                                 </div>
                             </div>
                         </article>
+
+                        <!-- Modal Popup Detail (Menggunakan CSS .paper-modal Kamu) -->
+                        <dialog id="details-modal-{{ project.id }}" class="paper-modal">
+                            <div class="paper-modal-topbar">
+                                <div class="window-dots">
+                                    <span class="dot red"></span>
+                                    <span class="dot yellow"></span>
+                                    <span class="dot green"></span>
+                                </div>
+                                <span class="window-title">Project Details</span>
+                                <button type="button" class="close-btn" onclick="document.getElementById('details-modal-{{ project.id }}').close()">✕</button>
+                            </div>
+
+                            <div class="paper-modal-body">
+                                <span class="paper-tag-modal">{{ project.tech_stack }}</span>
+                                <h2 class="paper-modal-title">{{ project.title }}</h2>
+
+                                {% if project.project_image_url %}
+                                    <div class="paper-image-container">
+                                        <img src="{{ project.project_image_url }}" alt="Gambar {{ project.title }}">
+                                    </div>
+                                {% endif %}
+
+                                <div class="paper-section">
+                                    <h3>Deskripsi Proyek</h3>
+                                    <p>{{ project.description }}</p>
+                                </div>
+
+                                <div class="paper-modal-footer">
+                                    {% if project.project_url %}
+                                        <a href="{{ project.project_url }}" target="_blank" class="button">
+                                            🔗 Lihat Project
+                                        </a>
+                                    {% endif %}
+                                    <button type="button" class="button button-secondary" onclick="document.getElementById('details-modal-{{ project.id }}').close()">Tutup</button>
+                                </div>
+                            </div>
+                        </dialog>
                     {% empty %}
                         {% if title_query %}
                             <p class="empty-state">Tidak ada proyek dengan nama tersebut.</p>

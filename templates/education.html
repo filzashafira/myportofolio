@@ -1,304 +1,92 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Education Journey - {{ name }}</title>
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+{% extends 'base.html' %}
 
-    <style>
-        body {
-            background-color: #0b1319 !important;
-            color: #ffffff;
-            font-family: 'Space Grotesk', sans-serif;
-            margin: 0;
-            overflow-x: hidden;
-        }
+{% block content %}
+    <main class="container">
+        <section class="experience-section">
+            <p class="section-kicker">Latar Belakang Akademis</p>
+            <h1>Education</h1>
 
-        .map-section {
-            padding: 4rem 1rem 8rem;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            position: relative;
-        }
+            <div class="map-journey-container" id="journeyContainer">
+                <!-- Garis Lampu yang Mengalir -->
+                <div class="timeline-progress-line" id="progressLine"></div>
 
-        .map-title {
-            text-align: center;
-            margin-bottom: 4rem;
-        }
+                {% for edu in education_list %}
+                    <div class="map-item {% if forloop.counter|divisibleby:2 %}right{% else %}left{% endif %}">
+                        <div class="map-node"></div>
 
-        .map-title h1 {
-            font-size: 2.5rem;
-            color: #00e5ff;
-            margin-top: 0.3rem;
-            text-shadow: 0 0 15px rgba(0, 229, 255, 0.4);
-        }
+                        <article class="experience-card" style="position: relative;">
+                            <div class="card-border-accent"></div>
 
-        .section-kicker {
-            font-size: 0.85rem;
-            letter-spacing: 0.15em;
-            text-transform: uppercase;
-            color: #ff7b54;
-            font-weight: 700;
-        }
+                            <!-- Bagian Logo / Gambar Instansi (Di Tengah & Agak Besar) -->
+                            {% if edu.thumbnail %}
+                                <div class="education-logo-wrapper" style="width: 100%; height: 85px; margin-bottom: 1rem; display: flex; justify-content: center; align-items: center;">
+                                    <img src="{{ edu.thumbnail }}" alt="{{ edu.institution }}" style="max-width: 100%; max-height: 100%; object-fit: contain;">
+                                </div>
+                            {% endif %}
 
-        /* Container Peta Timeline */
-        .metro-container {
-            position: relative;
-            max-width: 800px;
-            width: 100%;
-            margin: 0 auto;
-        }
-
-        /* Line SVG yang Digambar */
-        .metro-svg {
-            position: absolute;
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100%;
-            height: 100%;
-            z-index: 1;
-            pointer-events: none;
-        }
-
-        .metro-path-bg {
-            stroke: rgba(255, 255, 255, 0.1);
-            stroke-width: 6;
-            fill: none;
-        }
-
-        .metro-path-active {
-            stroke: #00e5ff;
-            stroke-width: 6;
-            fill: none;
-            stroke-dasharray: 1000;
-            stroke-dashoffset: 1000;
-            filter: drop-shadow(0 0 8px #00e5ff);
-            transition: stroke-dashoffset 0.1s linear;
-        }
-
-        /* Stasiun & Kartu */
-        .station-item {
-            position: relative;
-            z-index: 2;
-            display: flex;
-            align-items: center;
-            margin-bottom: 6rem;
-            width: 100%;
-        }
-
-        .station-item:nth-child(even) {
-            flex-direction: row-reverse;
-        }
-
-        .station-node {
-            width: 30px;
-            height: 30px;
-            background: #0b1319;
-            border: 4px solid #ff7b54;
-            border-radius: 50%;
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-            box-shadow: 0 0 15px #ff7b54;
-            transition: all 0.4s ease;
-        }
-
-        .station-item.active .station-node {
-            background: #00e5ff;
-            border-color: #ffffff;
-            box-shadow: 0 0 20px #00e5ff;
-            scale: 1.2;
-        }
-
-        .card-content {
-            width: 42%;
-            background: rgba(18, 28, 36, 0.85);
-            border: 1px solid rgba(0, 229, 255, 0.2);
-            border-radius: 16px;
-            padding: 1.5rem;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            transition: all 0.4s ease;
-        }
-
-        .card-content:hover {
-            border-color: #00e5ff;
-            transform: translateY(-5px);
-            box-shadow: 0 12px 35px rgba(0, 229, 255, 0.25);
-        }
-
-        .card-img {
-            width: 100%;
-            height: 90px;
-            object-fit: contain; 
-            border-radius: 8px;
-            margin-bottom: 1rem;
-            padding: 0.5rem;
-            background: rgba(255, 255, 255, 0.05); 
-}
-
-        .station-year {
-            font-size: 0.8rem;
-            color: #ff7b54;
-            font-weight: 700;
-        }
-
-        .card-content h3 {
-            margin: 0.3rem 0;
-            color: #ffffff;
-            font-size: 1.25rem;
-        }
-
-        .degree-badge {
-            display: inline-block;
-            font-size: 0.75rem;
-            color: #00e5ff;
-            background: rgba(0, 229, 255, 0.1);
-            padding: 0.2rem 0.6rem;
-            border-radius: 4px;
-            margin-bottom: 0.5rem;
-        }
-
-        .card-desc {
-            font-size: 0.85rem;
-            color: #94a3b8;
-            line-height: 1.5;
-            margin: 0;
-        }
-
-        @media (max-width: 768px) {
-            .station-node { left: 20px; }
-            .metro-svg { left: 20px; transform: none; }
-            .station-item, .station-item:nth-child(even) {
-                flex-direction: row;
-                justify-content: flex-end;
-            }
-            .card-content { width: 80%; }
-        }
-    </style>
-</head>
-<body>
-    <header class="site-header">
-        <div class="container">
-            <a href="{% url 'main:show_main' %}" class="brand">{{ name }}</a>
-            <nav>
-                <a href="{% url 'main:show_main' %}">Profile</a>
-                <a href="{% url 'main:show_experience' %}">Experience</a>
-                <a href="{% url 'main:show_education' %}">Education</a>
-            </nav>
-        </div>
-    </header>
-
-    <main class="map-section">
-        <div class="map-title">
-            <p class="section-kicker">Perjalanan Akademis</p>
-            <h1>Education Metro Map</h1>
-        </div>
-
-        <div class="metro-container" id="metroContainer">
-            <!-- SVG Path Jalur Peta -->
-            <svg class="metro-svg" id="metroSvg">
-                <path class="metro-path-bg" id="pathBg" d="" />
-                <path class="metro-path-active" id="pathActive" d="" />
-            </svg>
-
-            {% for edu in education_list %}
-                <div class="station-item">
-                    <div class="station-node"></div>
-                    <div class="card-content">
-                        {% if edu.thumbnail %}
-                            <img src="{{ edu.thumbnail }}" alt="{{ edu.institution }}" class="card-img">
-                        {% endif %}
-                        <span class="station-year">{{ edu.start_year }} - {% if edu.end_year %}{{ edu.end_year }}{% else %}Present{% endif %}</span>
-                        <h3>{{ edu.institution }}</h3>
-                        <span class="degree-badge">{{ edu.degree }}</span>
-                        {% if edu.description %}
-                            <p class="card-desc">{{ edu.description }}</p>
-                        {% endif %}
+                            <span class="experience-category">
+                                {{ edu.start_year }} - {% if edu.end_year %}{{ edu.end_year }}{% else %}Sekarang{% endif %}
+                            </span>
+                            <h2>{{ edu.institution }}</h2>
+                            <p class="experience-description">
+                                <strong>{{ edu.degree }}</strong>{% if edu.field_of_study %} dalam bidang {{ edu.field_of_study }}{% endif %}
+                            </p>
+                        </article>
                     </div>
-                </div>
-            {% empty %}
-                <p style="text-align: center;">Belum ada data pendidikan.</p>
-            {% endfor %}
-        </div>
+                {% empty %}
+                    <p class="empty-state">Belum ada riwayat pendidikan yang ditambahkan.</p>
+                {% endfor %}
+            </div>
+        </section>
     </main>
 
+    <!-- JavaScript untuk efek garis mengalir & bola menyala saat diswipe/scroll -->
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            const container = document.getElementById('metroContainer');
-            const items = document.querySelectorAll('.station-item');
-            const pathBg = document.getElementById('pathBg');
-            const pathActive = document.getElementById('pathActive');
+            const progressLine = document.getElementById("progressLine");
+            const container = document.getElementById("journeyContainer");
+            const items = document.querySelectorAll(".map-item");
 
-            function drawPath() {
-                if (items.length === 0) return;
-                
-                let pathD = "";
-                items.forEach((item, index) => {
-                    const node = item.querySelector('.station-node');
-                    const rect = node.getBoundingClientRect();
-                    const containerRect = container.getBoundingClientRect();
-                    
-                    const x = rect.left + rect.width / 2 - containerRect.left;
-                    const y = rect.top + rect.height / 2 - containerRect.top;
+            function updateTimeline() {
+                if (!container) return;
 
-                    if (index === 0) {
-                        pathD += `M ${x} ${y}`;
-                    } else {
-                        const prevNode = items[index - 1].querySelector('.station-node');
-                        const prevRect = prevNode.getBoundingClientRect();
-                        const prevY = prevRect.top + prevRect.height / 2 - containerRect.top;
-                        const prevX = prevRect.left + prevRect.width / 2 - containerRect.left;
-                        
-                        const midY = (prevY + y) / 2;
-                        pathD += ` C ${prevX} ${midY}, ${x} ${midY}, ${x} ${y}`;
-                    }
-                });
-
-                pathBg.setAttribute('d', pathD);
-                pathActive.setAttribute('d', pathD);
-
-                const length = pathActive.getTotalLength();
-                pathActive.style.strokeDasharray = length;
-                pathActive.style.strokeDashoffset = length;
-            }
-
-            function updateScroll() {
-                const length = pathActive.getTotalLength();
                 const containerRect = container.getBoundingClientRect();
-                const windowHeight = window.innerHeight;
+                const viewportHeight = window.innerHeight;
                 
-                const totalHeight = containerRect.height;
-                const scrollPosition = windowHeight / 2 - containerRect.top;
-                
-                let progress = scrollPosition / totalHeight;
-                progress = Math.max(0, Math.min(1, progress));
+                // Cek apakah scroll sudah mentok paling bawah
+                const isBottom = (window.innerHeight + window.scrollY) >= (document.documentElement.scrollHeight - 20);
 
-                pathActive.style.strokeDashoffset = length - (length * progress);
+                // Titik lampu mengalir normal
+                let triggerPoint = viewportHeight * 0.35;
 
-                items.forEach(item => {
-                    const node = item.querySelector('.station-node');
+                // Jika sudah mentok bawah, paksa garis lampu mengalir penuh sampai bawah
+                let lineLength = triggerPoint - containerRect.top;
+                if (isBottom) {
+                    lineLength = containerRect.height;
+                } else {
+                    lineLength = Math.max(0, Math.min(lineLength, containerRect.height));
+                }
+
+                // Set persentase tinggi garis lampu
+                const progressPercent = (lineLength / containerRect.height) * 100;
+                progressLine.style.height = progressPercent + "%";
+
+                // Cek titik node masing-masing item
+                items.forEach((item, index) => {
+                    const node = item.querySelector(".map-node");
                     const nodeRect = node.getBoundingClientRect();
-                    if (nodeRect.top < windowHeight * 0.6) {
-                        item.classList.add('active');
+
+                    // Jika sudah mentok bawah ATAU node sudah tersentuh garis lampu
+                    if (isBottom || (nodeRect.top + (nodeRect.height / 2) <= triggerPoint)) {
+                        item.classList.add("active");
                     } else {
-                        item.classList.remove('active');
+                        item.classList.remove("active");
                     }
                 });
             }
 
-            drawPath();
-            window.addEventListener('scroll', updateScroll);
-            window.addEventListener('resize', () => { drawPath(); updateScroll(); });
+            window.addEventListener("scroll", updateTimeline);
+            updateTimeline(); // Jalankan saat pertama kali dibuka
         });
     </script>
-</body>
-</html>
+{% endblock content %}

@@ -1,24 +1,22 @@
 from django.shortcuts import render
 
-from main.models import Experience
-from .models import Education
-from .models import Project
+from main.models import Experience, Education, Project
 from django.contrib import messages
 from django.core import serializers
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.shortcuts import render, redirect
-from django.contrib import messages
 from main.forms import ProjectForm
+from .models import Project
 
 
 def show_main(request):
     context = {
-        "name": "Filza Shafira",
+        "name": "Filza",
         "npm": "2506623641",
         "study_program": "S1 Sistem Informasi",
         "bio": (
-            "A highly motivated and growth-minded individual with a deep curiosity in technology, science, and business. Known for strong public speaking skills, critical thinking, and a proactive mindset. I thrive in dynamic environments that  challenge me to learn, adapt, and contribute meaningfully. With a solid foundation in analytical thinking and  communication, I am eager to expand my capabilities and make a positive impact through both academic and real-world experiences."
+            "A highly motivated and growth-minded individual with a deep curiosity in technology, science, and business. Known for strong public speaking skills, critical thinking, and a proactive mindset. I thrive in dynamic environments that  challenge me to learn, adapt, and contribute meaningfully. With a solid foundation in analytical thinking and  communication, I am eager to expand my capabilities and make a positive impact through both academic and real-world experiences. "
         ),
     }
     return render(request, "index.html", context)
@@ -26,20 +24,18 @@ def show_main(request):
 
 def show_experience(request):
     context = {
-        "name": "Filza Shafira",
+        "name": "Filza",
         "experience_list": Experience.objects.all(),
     }
     return render(request, "experience.html", context)
 
 def show_education(request):
-    education_list = Education.objects.all()
+    education_list = Education.objects.all().order_by('-start_year')
     context = {
         'name': 'Filza Shafira',
         'education_list': education_list,
     }
     return render(request, 'education.html', context)
-
-...
 
 def create_project(request):
     form = ProjectForm(request.POST or None)
@@ -50,10 +46,20 @@ def create_project(request):
         return redirect("main:show_projects")
 
     context = {
-        "name": "Filza",
+        "name": "Filza Shafira",
         "form": form,
     }
     return render(request, "projects_form.html", context)
+
+def delete_project(request, project_id):
+    project = get_object_or_404(Project, pk=project_id)
+
+    if request.method == "POST":
+        project.delete()
+        messages.success(request, "Project berhasil dihapus!")
+        return redirect("main:show_projects")
+
+    return redirect("main:show_projects")
 
 def get_projects_json(request):
     title_query = request.GET.get("title", "").strip()
@@ -81,13 +87,3 @@ def show_projects(request):
         "title_query": title_query,
     }
     return render(request, "project.html", context)
-
-def delete_project(request, project_id):
-    project = get_object_or_404(Project, pk=project_id)
-
-    if request.method == "POST":
-        project.delete()
-        messages.success(request, "Project berhasil dihapus!")
-        return redirect("main:show_projects")
-
-    return redirect("main:show_projects")

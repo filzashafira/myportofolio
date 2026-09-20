@@ -34,8 +34,8 @@ ALLOWED_HOSTS = ["localhost", "127.0.0.1", "filza-shafira-myportofolio.pws.cs.ui
 CSRF_TRUSTED_ORIGINS = [
     "https://filza-shafira-myportofolio.pws.cs.ui.ac.id",
     "http://filza-shafira-myportofolio.pws.cs.ui.ac.id",
-    "http://localhost",
-    "http://127.0.0.1",
+    "http://localhost:8000",
+    "http://127.0.0.1:8000",
 ]
 
 PRODUCTION = os.getenv('PRODUCTION', 'False').lower() == 'true'
@@ -69,8 +69,8 @@ ROOT_URLCONF = 'myportofolio.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates'],  # Pastikan baris ini ada
-        'APP_DIRS': True,                  # Pastikan bernilai True
+        'DIRS': [BASE_DIR / 'templates'],  
+        'APP_DIRS': True,                 
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.request',

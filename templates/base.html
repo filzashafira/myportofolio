@@ -13,21 +13,20 @@
 <body>
   <header class="site-header">
     <div class="container">
-        <a href="{% url 'main:show_main' %}" class="brand">Filza Shafira</a>
+        <a href="{% url 'main:show_main' %}" class="brand">{{ name }}</a>
         <nav>
             <a href="{% url 'main:show_main' %}">Profile</a>
             <a href="{% url 'main:show_experience' %}">Experience</a>
             <a href="{% url 'main:show_education' %}">Education</a>
-            <a href="{% url 'main:show_project' %}">Project</a>
+            <a href="{% url 'main:show_projects' %}">Project</a>
         </nav>
     </div>
   </header>
-
   {% block content %} {% endblock content %}
 
   <footer class="site-footer">
       <div class="container">
-          <p>&copy; 2026 Filza Shafira. Fakultas Ilmu Komputer, Universitas Indonesia.</p>
+          <p>&copy; 2026 {{ name }}. Fakultas Ilmu Komputer, Universitas Indonesia.</p>
       </div>
   </footer>
 </body>
