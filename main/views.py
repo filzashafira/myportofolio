@@ -6,8 +6,6 @@ from django.shortcuts import get_object_or_404, redirect, render
 from main.models import Experience, Education
 from main.models import Project
 
-
-
 def show_main(request):
     context = {
         "name": "Filza Shafira",
