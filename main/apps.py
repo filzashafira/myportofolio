@@ -21,12 +21,3 @@ class MainConfig(AppConfig):
 class MainConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
     name = 'main'
-
-    def ready(self):
-        # Jalankan otomatis saat aplikasi Django start di server PWS
-        if 'gunicorn' in sys.argv or 'wsgi' in sys.argv:
-            from django.core.management import call_command
-            try:
-                call_command('create_pws_superuser')
-            except Exception:
-                pass
