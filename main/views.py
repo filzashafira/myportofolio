@@ -1,15 +1,10 @@
 from django.shortcuts import render
-
-from main.models import Experience
-from .models import Education
-from .models import Project
 from django.contrib import messages
 from django.core import serializers
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
-from django.shortcuts import render, redirect
-from django.contrib import messages
-from main.forms import ProjectForm
+from main.models import Experience, Education
+from main.models import Project
 
 
 def show_main(request):
@@ -32,38 +27,12 @@ def show_experience(request):
     return render(request, "experience.html", context)
 
 def show_education(request):
-    education_list = Education.objects.all()
+    education_list = Education.objects.all().order_by('-start_year')
     context = {
         'name': 'Filza Shafira',
         'education_list': education_list,
     }
     return render(request, 'education.html', context)
-
-...
-
-def create_project(request):
-    form = ProjectForm(request.POST or None)
-
-    if request.method == "POST" and form.is_valid():
-        form.save()
-        messages.success(request, "Proyek baru berhasil ditambahkan!")
-        return redirect("main:show_projects")
-
-    context = {
-        "name": "Filza",
-        "form": form,
-    }
-    return render(request, "projects_form.html", context)
-
-def get_projects_json(request):
-    title_query = request.GET.get("title", "").strip()
-    projects = Project.objects.all()
-
-    if title_query:
-        projects = projects.filter(title__icontains=title_query)
-
-    projects_json = serializers.serialize("json", projects)
-    return HttpResponse(projects_json, content_type="application/json")
 
 def show_projects(request):
     json_response = get_projects_json(request)
@@ -81,6 +50,30 @@ def show_projects(request):
         "title_query": title_query,
     }
     return render(request, "project.html", context)
+
+def create_project(request):
+    form = ProjectForm(request.POST or None)
+
+    if request.method == "POST" and form.is_valid():
+        form.save()
+        messages.success(request, "Proyek baru berhasil ditambahkan!")
+        return redirect("main:show_projects")
+
+    context = {
+        "name": "Filza Shafira",
+        "form": form,
+    }
+    return render(request, "projects_form.html", context)
+
+def get_projects_json(request):
+    title_query = request.GET.get("title", "").strip()
+    projects = Project.objects.all()
+
+    if title_query:
+        projects = projects.filter(title__icontains=title_query)
+
+    projects_json = serializers.serialize("json", projects)
+    return HttpResponse(projects_json, content_type="application/json")
 
 def delete_project(request, project_id):
     project = get_object_or_404(Project, pk=project_id)
