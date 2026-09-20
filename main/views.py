@@ -5,6 +5,8 @@ from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from main.models import Experience, Education
 from main.models import Project
+from django.core.management import call_command
+from django.http import HttpResponse
 
 def show_main(request):
     context = {
@@ -83,3 +85,10 @@ def delete_project(request, project_id):
         return redirect("main:show_projects")
 
     return redirect("main:show_projects")
+
+def load_data_pws(request):
+    try:
+        call_command('loaddata', 'experience.json')
+        return HttpResponse("Data berhasil dimuat ke PWS!")
+    except Exception as e:
+        return HttpResponse(f"Gagal memuat data: {str(e)}")
