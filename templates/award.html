@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block meta %}
+    <title>Awards - {{ name }}</title>
+{% endblock meta %}
+{% block content %}
+    <main>
+        <section class="experience-section" id="experience">
+            <div class="container">
+                <p class="section-kicker">The awards I achieved</p>
+                <div class="award-header">
+                    <h1>Awards</h1>
+                    <a href="{% url 'main:create_award' %}"
+                       class="button award-add-button">
+                        <span aria-hidden="true">+</span>
+                        Add Award
+                    </a>
+                </div>
+                <form method="get"
+                      action="{% url 'main:show_awards' %}"
+                      class="award-search">
+                    <input type="search"
+                           name="title"
+                           value="{{ title_query }}"
+                           placeholder="Search by award name"
+                           class="award-search__input"
+                           aria-label="Search by award name">
+                    <button type="submit" class="button">Cari</button>
+                </form>
+                <div class="experience-grid award-grid">
+                    {% for award in award_list %}
+                        <article class="experience-card">
+                            {% if award.award_image_url %}
+                                <img src="{{ award.award_image_url }}"
+                                     alt="Gambar {{ award.title }}"
+                                     class="award-image">
+                            {% endif %}
+                            <h2>{{ award.title }}</h2>
+                            <span class="experience-category">{{ award.tech_stack }}</span>
+                            <p class="experience-description">{{ award.description }}</p>
+                            <div class="award-card-actions">
+                                <div class="award-actions">
+                                    {% if award.award_url %}
+                                        <a href="{{ award.award_url }}" class="button">View awards</a>
+                                    {% endif %}
+                                    {% include "components/award_delete_modal.html" with award=award %}
+                                </div>
+                            </div>
+                        </article>
+                    {% empty %}
+                        {% if title_query %}
+                            <p class="empty-state">There is no award by that name..</p>
+                        {% else %}
+                            <p class="empty-state">No awards have been added yet.</p>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+    </main>
+{% endblock content %}

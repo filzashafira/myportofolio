@@ -3,9 +3,8 @@ from django.contrib import messages
 from django.core import serializers
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
-from main.models import Experience, Education
-from main.models import Project
-from .forms import ProjectForm
+from main.models import Experience, Education, Award, Project
+from .forms import ProjectForm, AwardForm
 
 def show_main(request):
     context = {
@@ -85,4 +84,54 @@ def delete_project(request, project_id):
 
     return redirect("main:show_projects")
 
+def show_awards(request):
+    json_response = get_awards_json(request)
+
+    awards = serializers.deserialize(
+        "json",
+        json_response.content.decode("utf-8"),
+    )
+    awards = [award.object for award in awards]
+    title_query = request.GET.get("title", "").strip()
+
+    context = {
+        "name": "Filza Shafira",
+        "project_list": awards,
+        "title_query": title_query,
+    }
+    return render(request, "award.html", context)
+
+def create_award(request):
+    form = AwardForm(request.POST or None)
+
+    if request.method == "POST" and form.is_valid():
+        form.save()
+        messages.success(request, "Penghargaan baru berhasil ditambahkan!")
+        return redirect("main:show_awards")
+
+    context = {
+        "name": "Filza Shafira",
+        "form": form,
+    }
+    return render(request, "awards_form.html", context)
+
+def get_awards_json(request):
+    title_query = request.GET.get("title", "").strip()
+    awards = Award.objects.all()
+
+    if title_query:
+        awards = awards.filter(title__icontains=title_query)
+
+    awards_json = serializers.serialize("json", awards)
+    return HttpResponse(awards_json, content_type="application/json")
+
+def delete_award(request, award_id):
+    award = get_object_or_404(Project, pk=award_id)
+
+    if request.method == "POST":
+        award.delete()
+        messages.success(request, "Penghargaan berhasil dihapus!")
+        return redirect("main:show_awards")
+
+    return redirect("main:show_awards")
 

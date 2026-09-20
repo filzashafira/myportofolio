@@ -29,7 +29,7 @@ Membantu penyusunan struktur HTML semantik, memberikan saran CSS Flexbox agar ta
 Semua saran dari AI tetap aku tes, sesuaikan, dan jalankan sendiri secara lokal(python manage.py runserver) maupun di PWS untuk memastikan kodeknua berjalan lancar tanpa adanya error.
 
 
-### Tugas 2
+Tugas 2
 
 #### 1. Alur Pemrosesan Permintaan (Request-Response Cycle) MVT pada Django
 
@@ -113,3 +113,63 @@ Dalam pengerjaan Individual Assignment 1 ini, aku nanya-nanya dan dibantu sama A
 Membantu penyusunan struktur HTML semantik, memberikan saran CSS Flexbox agar tampilan responsif di HP, merapikan rata kanan kiri deskripsi section.
 
 Semua saran dari AI tetap aku tes, sesuaikan, dan jalankan sendiri secara lokal(python manage.py runserver) maupun di PWS untuk memastikan kodeknua berjalan lancar tanpa adanya error.
+
+
+### Tugas 3
+
+1. Jelaskan mengapa kita menggunakan ModelForm pada Django alih-alih membuat form HTML secara manual. Selain itu, jelaskan pula mengapa kita diwajibkan menambahkan {% csrf_token %} pada form tersebut!
+
+Penggunaan ModelForm vs Form HTML Manual:
+Pertama, mengenai otomatisasi dan efisiensi kode atau prinsip Don't Repeat Yourself. Saat menggunakan form HTML manual, kita harus menulis tag input satu per satu, mengelola atribut nama, tipe data, serta pesan validasi secara manual di HTML, lalu mengekstrak nilai request.POST.get() satu per satu di view. ModelForm secara otomatis membuat komponen form beserta tipe widget HTML yang sesuai berdasarkan skema atau field yang ada pada Model Django.
+
+Kedua, mengenai validasi data yang terintegrasi. ModelForm secara otomatis menerapkan aturan validasi dari model seperti max_length, null=False, tipe data email, integer, dan lainnya. Method form.is_valid() mengeksekusi pemeriksaan keamanan dan sanitasi data input secara menyeluruh sebelum disimpan ke basis data melalui form.save().
+
+Ketiga, mengenai keamanan dan sanitasi input. ModelForm menangani sanitasi input untuk mencegah celah keamanan seperti SQL Injection dan Cross-Site Scripting (XSS) secara otomatis saat data disimpan ke basis data.
+
+Kewajiban Menambahkan {% csrf_token %}:
+
+Pencegahan serangan CSRF (Cross-Site Request Forgery). Serangan CSRF terjadi ketika situs berbahaya memaksa browser pengguna yang sedang terautentikasi untuk mengirimkan permintaan POST yang tidak diinginkan ke server aplikasi kita tanpa sepengetahuan pengguna.
+
+Mekanisme kerja token. Tag {% csrf_token %} menyisipkan sebuah input rahasia bertipe hidden yang berisi token unik terenkripsi pada form HTML. Saat form di-submit, middleware Django (CsrfViewMiddleware) akan membandingkan token dari form dengan token yang ada pada session atau cookie pengguna. Jika token tidak cocok atau hilang, Django akan menolak permintaan tersebut dengan respons 403 Forbidden.
+
+2. Pada Tutorial 03, kita membahas format data JSON dan XML. Mengapa JSON lebih disukai dalam pengembangan aplikasi web modern dibandingkan XML?
+
+Ukuran data lebih ringan dan efisien. JSON (JavaScript Object Notation) menggunakan sintaks berbasis pasangan key-value dan kurung siku atau kurawal yang ringkas. Sebaliknya, XML (eXtensible Markup Language) memerlukan tag pembuka dan penutup yang panjang, sehingga ukuran payload XML jauh lebih besar dan menghabiskan lebih banyak bandwidth jaringan.
+
+Kecepatan parsing dan integrasi native dengan JavaScript. Dalam ekosistem front-end modern seperti React, Vue, atau Vanilla JS, JSON secara native langsung dipetakan menjadi objek JavaScript melalui fungsi bawaan JSON.parse(). Sementara XML memerlukan proses parsing DOM Parser yang jauh lebih lambat, kompleks, dan memakan memori CPU browser untuk mengakses elemen-elemennya.
+
+Kemudahan dibaca manusia dan mesin. Struktur data JSON seperti array dan object sangat intuitif serta cocok dengan struktur data dasar pada sebagian besar bahasa pemrograman modern, contohnya Dictionary dan List pada Python atau Map dan Object pada JavaScript.
+
+Standar RESTful API modern. Mayoritas API modern dan layanan cloud menggunakan JSON sebagai format standar transmisi data karena efisiensi deserialisasi pada komunikasi client-side berbasis AJAX atau Fetch API.
+
+3. Jelaskan alur yang terjadi saat kamu menggunakan fungsi view untuk mengembalikan data portofoliomu dalam bentuk JSON. Mengapa kita perlu melakukan proses serialization pada model Django sebelum datanya dikembalikan?
+
+Alur Eksekusi dari Browser ke View hingga menjadi JSON:
+
+Langkah pertama, HTTP Request. Client atau browser mengirimkan permintaan HTTP GET ke endpoint URL JSON, misalnya /json/ atau /awards/json/.
+
+Langkah kedua, QuerySet Retrieval. Fungsi view di Django menerima permintaan dan mengambil data dari basis data menggunakan QuerySet ORM, contohnya data = Award.objects.all().
+
+Langkah ketiga, Serialization Process. Data QuerySet tersebut diubah formatnya menjadi bentuk yang universal seperti daftar dictionary Python menggunakan modul django.core.serializers.
+
+Langkah keempat, HTTP Response. Data hasil serialisasi kemudian dibungkus dalam objek HttpResponse(data, content_type="application/json") atau JsonResponse untuk dikirimkan kembali ke client dengan header HTTP JSON yang sesuai.
+
+Alasan Perlunya Proses Serialization:
+
+Objek QuerySet Django yang dikembalikan oleh ORM seperti Award.objects.all() adalah objek Python kompleks yang berisi logika internal Django seperti metode relasi database, caching, dan lainnya. Sementara itu, teks JSON hanya dapat merepresentasikan tipe data primitif atau sederhana seperti string, number, boolean, array, dan null.
+
+Serialization adalah proses penerjemahan atau konversi dari objek kompleks Python atau Django ORM tersebut menjadi format teks terstruktur (JSON) agar dapat dikirimkan melalui jaringan internet dan dibaca oleh bahasa pemrograman apa pun di sisi client seperti JavaScript di browser.
+
+### AI Disclosure
+
+Dalam pengerjaan Individual Assignment 3 ini, saya menggunakan bantuan AI (Gemini) sebagai alat bantu diskusi, penyusunan struktur, dan debugging:
+
+1. Peran AI dalam Pengerjaan:
+* Membantu penyusunan struktur HTML semantik untuk template halaman.
+* Memberikan saran tata letak CSS Flexbox dan CSS Grid agar tampilan antarmuka responsif saat diakses dari perangkat seluler.
+* Menganalisis log kesalahan terminal seperti FieldError pada forms.py dan OperationalError saat pembuatan model baru, serta memberikan arahan perbaikan kode.
+* Membantu menyusun kerangka penjelasan reflektif secara terstruktur dan komprehensif.
+
+
+2. Verifikasi dan Pengujian Mandiri:
+* Seluruh saran kode, potongan skrip, dan instruksi dari AI selalu saya pelajari, uji coba, sesuaikan, dan jalankan secara mandiri di lingkungan lokal (python manage.py runserver) serta di lingkungan deployment Pacil Web Service untuk memastikan seluruh fungsionalitas berjalan lancar tanpa adanya error.
