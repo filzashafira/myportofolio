@@ -7,6 +7,7 @@ from main.models import Experience, Education
 from main.models import Project
 
 
+
 def show_main(request):
     context = {
         "name": "Filza Shafira",
