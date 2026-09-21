@@ -48,6 +48,7 @@ class ProjectForm(ModelForm):
             "project_image_url": URLInput(
                 attrs={
                     "placeholder": "https://drive.google.com/thumbnail?id=FILE_ID&sz=w1000",
+
                 }
             ),
         }
