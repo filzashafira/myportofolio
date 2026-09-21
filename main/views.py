@@ -185,7 +185,7 @@ def get_awards_json(request):
 
 @login_required(login_url="/login/")
 def delete_award(request, award_id):
-    award = get_object_or_404(Project, pk=award_id)
+    award = get_object_or_404(Award, pk=award_id)
 
     if request.method == "POST":
         award.delete()
