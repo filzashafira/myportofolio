@@ -100,21 +100,14 @@ def get_projects_json(request):
     return JsonResponse(data, safe=False)
 
 def show_projects(request):
-    json_response = get_projects_json(request)
-
-    projects = serializers.deserialize(
-        "json",
-        json_response.content.decode("utf-8"),
-    )
-    projects = [project.object for project in projects]
     title_query = request.GET.get("title", "").strip()
 
     context = {
-        "name": "Filza",
-        "project_list": projects,
+        "name": "Filza Shafira",
         "title_query": title_query,
     }
     return render(request, "project.html", context)
+
 
 @login_required(login_url="/login/")
 def create_project(request):
@@ -146,19 +139,12 @@ def delete_project(request, project_id):
 
     return redirect("main:show_projects")
 
-def show_awards(request):
-    json_response = get_awards_json(request)
 
-    awards = serializers.deserialize(
-        "json",
-        json_response.content.decode("utf-8"),
-    )
-    awards = [award.object for award in awards]
+def show_awards(request):
     title_query = request.GET.get("title", "").strip()
 
     context = {
         "name": "Filza Shafira",
-        "award_list": awards,
         "title_query": title_query,
     }
     return render(request, "award.html", context)
