@@ -181,17 +181,38 @@ def create_award(request):
     }
     return render(request, "awards_form.html", context)
 
+
+from django.http import JsonResponse
+
 def get_awards_json(request):
     title_query = request.GET.get("title", "").strip()
-    awards = Award.objects.all()
+    awards = Award.awards.prefetch_related('starred_by').all()
 
     if title_query:
         awards = awards.filter(title__icontains=title_query)
 
-    awards_json = serializers.serialize(
-    "json", awards, use_natural_foreign_keys=True 
-    )
-    return HttpResponse(awards_json, content_type="application/json")
+    # Konstruksi data JSON secara manual agar bisa menyisipkan logika Star
+    data = []
+    for award in awards:
+        starred_users = award.starred_by.all()
+        is_starred = request.user in starred_users if request.user.is_authenticated else False
+        starred_by_names = ", ".join([u.username for u in starred_users])
+
+        data.append({
+            "pk": str(award.id),
+            "fields": {
+                "title": award.title,
+                "description": award.description,
+                "tech_stack": award.tech_stack,
+                "project_url": award.project_url,
+                "project_image_url": award.award_image_url,
+                "star_count": starred_users.count(),
+                "is_starred": is_starred,
+                "starred_by_names": starred_by_names,
+            }
+        })
+
+    return JsonResponse(data, safe=False)
 
 @login_required(login_url="/login/")
 def delete_award(request, award_id):
