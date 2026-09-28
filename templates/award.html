@@ -94,6 +94,17 @@
             gridContainer.classList.toggle('hide', !showGrid);
         }
 
+        // Mengubah karakter khusus HTML menjadi entity agar ditampilkan sebagai teks
+        function escapeHtml(value) {
+            return String(value ?? '')
+                .replaceAll('&', '&amp;')
+                .replaceAll('<', '&lt;')
+                .replaceAll('>', '&gt;')
+                .replaceAll('"', '&quot;')
+                .replaceAll("'", '&#39;');
+        }
+
+
         // Membuat elemen card award
         function buildAwardCardElement(item) {
             const award = item.fields;
@@ -102,12 +113,12 @@
             const articleElement = document.createElement('article');
             articleElement.className = 'experience-card';
 
-            const imageHtml = award.project_image_url 
-                ? `<img src="${award.project_image_url}" alt="Gambar ${award.title}" class="award-image">`
+            const imageHtml = award.award_image_url
+                ? `<img src="${escapeHtml(award.award_image_url)}" alt="Gambar ${escapeHtml(award.title)}" class="award-image">`
                 : '';
 
-            const urlHtml = award.project_url 
-                ? `<a href="${award.project_url}" class="button">View awards</a>`
+            const urlHtml = award.award_url
+                ? `<a href="${escapeHtml(award.award_url)}" class="button">Lihat Award</a>`
                 : '';
 
             // Dummy UUID digunakan untuk digantikan oleh ID asli dari data JSON
@@ -126,16 +137,16 @@
 
             const isStarredClass = award.is_starred ? " is-starred" : "";
             const starText = award.is_starred ? "Unstar" : "Star";
-            const starTitle = award.star_count > 0 
-                ? `Dibintangi oleh ${award.starred_by_names}` 
+            const starTitle = project.star_count > 0
+                ? `Dibintangi oleh ${escapeHtml(project.starred_by_names)}`
                 : "Jadilah yang pertama memberi star";
 
             // Komponen card
             const completeCardHtml = `
                 ${imageHtml}
-                <h2>${award.title}</h2>
-                <span class="experience-category">${award.tech_stack}</span>
-                <p class="experience-description">${award.description}</p>
+                <h2>${escapeHtml(award.title)}</h2>
+                <span class="award-category">${escapeHtml(award.tech_stack)}</span>
+                <p class="experience-description">${escapeHtml(award.description)}</p>
                 <div class="award-card-actions">
                     <div class="award-actions">
                         ${urlHtml}
