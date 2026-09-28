@@ -1,6 +1,6 @@
 from django.urls import path
 
-from main.views import show_main, show_experience,  show_education, create_project, show_projects, get_projects_json, delete_project, create_award, show_awards,  get_awards_json, delete_award, register, login_user, logout_user, toggle_star_project,toggle_star_award 
+from main.views import show_main, show_experience,  show_education, create_project, show_projects, get_projects_json, delete_project, create_award, show_awards,  get_awards_json, delete_award, register, login_user, logout_user, toggle_star_project,toggle_star_award, create_project_ajax, create_award_ajax 
 
 app_name = "main"
 
@@ -29,4 +29,6 @@ urlpatterns = [
         toggle_star_award,
         name="toggle_star_award",
     ),
+    path("projects/add-ajax/", create_project_ajax, name="create_project_ajax"),
+    path("awards/add-ajax/", create_award_ajax, name="create_award_ajax"),
 ]

@@ -15,7 +15,7 @@ from django.shortcuts import render, redirect
 from main.forms import ProjectForm,AwardForm
 from .models import Project,Award
 from django.http import JsonResponse
-
+from django.views.decorators.http import require_POST
 
 def show_main(request):
     last_login = request.COOKIES.get('last_login', 'Belum ada sesi login / Cookie tidak ditemukan')
@@ -296,3 +296,38 @@ def toggle_star_award(request, award_id):
 
     return redirect("main:show_awards")
 
+@require_POST
+def create_project_ajax(request):
+    if not request.user.is_superuser:
+        return JsonResponse(
+            {"message": "Hanya pemilik portofolio yang dapat menambahkan proyek."},
+            status=403,
+        )
+
+    form = ProjectForm(request.POST)
+    if form.is_valid():
+        project = form.save()
+        return JsonResponse(
+            {"message": "Proyek berhasil ditambahkan.", "pk": str(project.id)},
+            status=201,
+        )
+
+    return JsonResponse({"errors": form.errors.get_json_data()}, status=400)
+
+@require_POST
+def create_award_ajax(request):
+    if not request.user.is_superuser:
+        return JsonResponse(
+            {"message": "Hanya pemilik portofolio yang dapat menambahkan award."},
+            status=403,
+        )
+
+    form = AwardForm(request.POST)
+    if form.is_valid():
+        award = form.save()
+        return JsonResponse(
+            {"message": "Award berhasil ditambahkan.", "pk": str(award.id)},
+            status=201,
+        )
+
+    return JsonResponse({"errors": form.errors.get_json_data()}, status=400)
