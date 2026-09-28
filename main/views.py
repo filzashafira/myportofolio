@@ -148,7 +148,7 @@ def show_awards(request):
 
     context = {
         "name": "Filza Shafira",
-        "project_list": awards,
+        "award_list": awards,
         "title_query": title_query,
     }
     return render(request, "award.html", context)

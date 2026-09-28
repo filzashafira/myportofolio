@@ -173,3 +173,6 @@ Dalam pengerjaan Individual Assignment 3 ini, saya menggunakan bantuan AI (Gemin
 
 2. Verifikasi dan Pengujian Mandiri:
 * Seluruh saran kode, potongan skrip, dan instruksi dari AI selalu saya pelajari, uji coba, sesuaikan, dan jalankan secara mandiri di lingkungan lokal (python manage.py runserver) serta di lingkungan deployment Pacil Web Service untuk memastikan seluruh fungsionalitas berjalan lancar tanpa adanya error.
+
+TUGAS 4
+Saya mengerjakan Tugas 4 BPB secara mandiri tanpa menggunakan AI. Pengerjaan Tugas 4 saya lakukan bersamaan dengan Tutorial 4, sehingga setiap materi atau konsep yang saya pelajari pada Tutorial 4 langsung saya implementasikan ke dalam Tugas 4. Karena pengerjaannya dilakukan secara langsung di lokal dan tidak setiap perubahan langsung saya push ke GitHub, jumlah commit/push pada repository menjadi tidak terlalu banyak. Namun, proses pengerjaan tetap saya lakukan sendiri dan secara bertahap sesuai dengan materi yang dipelajari pada Tutorial 4.

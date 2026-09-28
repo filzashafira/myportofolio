@@ -17,7 +17,3 @@ class MainConfig(AppConfig):
                     call_command('loaddata', 'experience.json')
             except Exception:
                 pass
-
-class MainConfig(AppConfig):
-    default_auto_field = 'django.db.models.BigAutoField'
-    name = 'main'
