@@ -17,6 +17,14 @@
                     </a>
                 {% endif %}  
                 </div>
+
+                <!-- Tombol Pengujian Toast -->
+                <button type="button"
+                        class="button button-secondary"
+                        onclick="showToast('Notifikasi Sistem', 'Award berhasil dimuat dengan baik!', 'success')">
+                    Test Toast Notifikasi
+                </button>
+
                 <form method="get"
                       action="{% url 'main:show_awards' %}"
                       class="award-search">

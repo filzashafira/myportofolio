@@ -121,9 +121,7 @@ Semua saran dari AI tetap aku tes, sesuaikan, dan jalankan sendiri secara lokal(
 
 Penggunaan ModelForm vs Form HTML Manual:
 Pertama, mengenai otomatisasi dan efisiensi kode atau prinsip Don't Repeat Yourself. Saat menggunakan form HTML manual, kita harus menulis tag input satu per satu, mengelola atribut nama, tipe data, serta pesan validasi secara manual di HTML, lalu mengekstrak nilai request.POST.get() satu per satu di view. ModelForm secara otomatis membuat komponen form beserta tipe widget HTML yang sesuai berdasarkan skema atau field yang ada pada Model Django.
-
 Kedua, mengenai validasi data yang terintegrasi. ModelForm secara otomatis menerapkan aturan validasi dari model seperti max_length, null=False, tipe data email, integer, dan lainnya. Method form.is_valid() mengeksekusi pemeriksaan keamanan dan sanitasi data input secara menyeluruh sebelum disimpan ke basis data melalui form.save().
-
 Ketiga, mengenai keamanan dan sanitasi input. ModelForm menangani sanitasi input untuk mencegah celah keamanan seperti SQL Injection dan Cross-Site Scripting (XSS) secara otomatis saat data disimpan ke basis data.
 
 Kewajiban Menambahkan {% csrf_token %}:
