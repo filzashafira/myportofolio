@@ -137,8 +137,8 @@
 
             const isStarredClass = award.is_starred ? " is-starred" : "";
             const starText = award.is_starred ? "Unstar" : "Star";
-            const starTitle = project.star_count > 0
-                ? `Dibintangi oleh ${escapeHtml(project.starred_by_names)}`
+            const starTitle = award.star_count > 0
+                ? `Dibintangi oleh ${escapeHtml(award.starred_by_names)}`
                 : "Jadilah yang pertama memberi star";
 
             // Komponen card
