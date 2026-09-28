@@ -15,11 +15,12 @@
                     <h1>Awards</h1>
 
                     {% if user.is_superuser %}
-                        <a href="{% url 'main:create_award' %}"
-                           class="button award-add-button">
+                        <button type="button"
+                                class="button award-add-button"
+                                popovertarget="add-award-modal">
                             <span aria-hidden="true">+</span>
-                            Add Award
-                        </a>
+                            Tambah Award
+                        </button>
                     {% endif %}
                 </div>
 

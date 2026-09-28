@@ -16,6 +16,7 @@ from main.forms import ProjectForm
 from .models import Project
 from django.http import JsonResponse
 
+
 def show_main(request):
     last_login = request.COOKIES.get('last_login', 'Belum ada sesi login / Cookie tidak ditemukan')
     context = {
@@ -105,6 +106,7 @@ def show_projects(request):
     context = {
         "name": "Filza Shafira",
         "title_query": title_query,
+        "form": ProjectForm(),
     }
     return render(request, "project.html", context)
 
@@ -146,6 +148,7 @@ def show_awards(request):
     context = {
         "name": "Filza Shafira",
         "title_query": title_query,
+        "form": ProjectForm(),
     }
     return render(request, "award.html", context)
 
