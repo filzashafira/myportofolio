@@ -65,6 +65,10 @@
         </section>
     </main>
 
+    {% if user.is_superuser %}
+        {% include "components/award_form_modal.html" %}
+    {% endif %}
+
     <script>
         // Konfigurasi
         const BASE_AWARDS_ENDPOINT = "{% url 'main:get_awards_json' %}";
@@ -209,6 +213,10 @@
             clearTimeout(searchDebounceTimer);
             searchAwards();
         });
+
+        function closeAwardModal() {
+            document.getElementById("add-award-modal").hidePopover();
+        }
 
         // Start application
         fetchAwards(searchInput.value.trim());

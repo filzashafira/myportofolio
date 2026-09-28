@@ -12,8 +12,8 @@ from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth.decorators import login_required 
 from django.core.exceptions import PermissionDenied       
 from django.shortcuts import render, redirect
-from main.forms import ProjectForm
-from .models import Project
+from main.forms import ProjectForm,AwardForm
+from .models import Project,Award
 from django.http import JsonResponse
 
 
@@ -142,14 +142,14 @@ def delete_project(request, project_id):
     return redirect("main:show_projects")
 
 
-def show_awards(request):
-    title_query = request.GET.get("title", "").strip()
-
-    context = {
-        "name": "Filza Shafira",
-        "title_query": title_query,
-        "form": ProjectForm(),
-    }
+def show_awards(request): 
+    title_query = request.GET.get("title", "").strip() 
+ 
+    context = { 
+        "name": "Filza Shafira", 
+        "title_query": title_query, 
+        "form": AwardForm(), 
+    } 
     return render(request, "award.html", context)
 
 @login_required(login_url="/login/")

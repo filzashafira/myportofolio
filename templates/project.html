@@ -64,6 +64,10 @@
         </section>
     </main>
 
+    {% if user.is_superuser %}
+        {% include "components/project_form_modal.html" %}
+    {% endif %}
+
     
     <script>
         // Konfigurasi
@@ -208,6 +212,10 @@
             clearTimeout(searchDebounceTimer);
             searchProjects();
         });
+
+        function closeProjectModal() {
+            document.getElementById("add-project-modal").hidePopover();
+        }
 
         // Start application
         fetchProjects(searchInput.value.trim());
