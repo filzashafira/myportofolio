@@ -174,3 +174,33 @@ Dalam pengerjaan Individual Assignment 3 ini, saya menggunakan bantuan AI (Gemin
 
 TUGAS 4
 Saya mengerjakan Tugas 4 BPB secara mandiri tanpa menggunakan AI. Pengerjaan Tugas 4 saya lakukan bersamaan dengan Tutorial 4, sehingga setiap materi atau konsep yang saya pelajari pada Tutorial 4 langsung saya implementasikan ke dalam Tugas 4. Karena pengerjaannya dilakukan secara langsung di lokal dan tidak setiap perubahan langsung saya push ke GitHub, jumlah commit/push pada repository menjadi tidak terlalu banyak. Namun, proses pengerjaan tetap saya lakukan sendiri dan secara bertahap sesuai dengan materi yang dipelajari pada Tutorial 4.
+
+###Tugas 5
+1. Jelaskan apa itu *debouncing* dan mengapa teknik ini penting diterapkan pada fitur pencarian yang menggunakan AJAX!
+   Debouncing adalah teknik untuk menunda eksekusi suatu fungsi sampai pengguna berhenti melakukan suatu aktivitas selama waktu tertentu. Pada fitur pencarian menggunakan AJAX, teknik ini digunakan agar request ke server tidak dikirim setiap kali pengguna mengetik satu karakter.
+
+   Pada implementasi pencarian Award, saya menggunakan `setTimeout()` dengan delay 300 milidetik dan `clearTimeout()` untuk membatalkan timer sebelumnya. Dengan demikian, request AJAX baru dikirim melalui `fetchAwards()` setelah pengguna berhenti mengetik selama 300 milidetik.
+
+   Teknik ini penting karena dapat mengurangi jumlah request yang tidak diperlukan, menghemat penggunaan resource server dan jaringan, serta membuat proses pencarian menjadi lebih efisien tanpa harus me-reload halaman.
+
+
+2. Jelaskan fungsi dari penggunaan `await` ketika kita menggunakan `fetch()`! Apa yang akan terjadi jika kita tidak menggunakan `await`?
+   `fetch()` merupakan fungsi asynchronous yang mengembalikan sebuah `Promise`. `await` digunakan untuk menunggu hingga operasi asynchronous selesai sebelum kode melanjutkan ke proses berikutnya.
+
+   Pada implementasi saya, `await fetch(url)` digunakan untuk menunggu response dari server, sedangkan `await response.json()` digunakan untuk menunggu proses konversi response menjadi data JSON selesai. Dengan begitu, data dapat diproses dan ditampilkan setelah berhasil diterima.
+
+   Jika `await` tidak digunakan, hasil dari `fetch()` masih berupa `Promise`, bukan response yang sudah diterima. Akibatnya, kode tidak dapat langsung mengakses data response atau menggunakannya sebagai data JSON. Penggunaan `await` membantu memastikan urutan proses pengambilan dan pengolahan data berjalan dengan benar.
+
+
+3. Jelaskan apa itu serangan XSS (Cross-Site Scripting) dan mengapa data yang ditampilkan melalui AJAX/JavaScript lebih rentan terhadap serangan ini daripada data yang ditampilkan  langsung melalui *template* Django!
+   XSS (Cross-Site Scripting) adalah serangan yang terjadi ketika data yang mengandung HTML atau JavaScript berbahaya diproses oleh browser sebagai kode yang dapat dieksekusi. Contohnya adalah payload `<img src="x" onerror="alert('XSS!')">`.
+
+   Pada data yang ditampilkan melalui AJAX, data dari server diproses kembali menggunakan JavaScript. Jika data tersebut dimasukkan ke halaman menggunakan `innerHTML` tanpa escaping, browser dapat menganggapnya sebagai HTML dan menjalankan kode berbahaya. Berbeda dengan template Django yang secara default memiliki mekanisme *auto-escaping* ketika menampilkan data menggunakan `{{ ... }}`.
+
+   Untuk mencegahnya, saya menggunakan fungsi `escapeHtml()` sebelum memasukkan data dari JSON ke HTML, serta `strip_tags()` pada method `clean_<field>` di `ModelForm` untuk membersihkan input teks di sisi server. Dengan demikian, perlindungan dilakukan baik saat data diterima maupun saat ditampilkan agar input berbahaya tidak dieksekusi oleh browser.
+
+   ### AI Disclosure
+   Saya mengerjakan implementasi kode Tugas 5 secara mandiri tanpa menggunakan AI untuk menghasilkan kode program. Dalam penyusunan README, saya menggunakan ChatGPT sebagai alat bantu untuk menyusun kalimat pada bagian pertanyaan reflektif serta memverifikasi ketepatan penjelasan konsep, seperti debouncing, penggunaan `await` pada Fetch API, dan perlindungan XSS.
+
+   Penggunaan AI terbatas pada bantuan penulisan dan pemahaman materi, sedangkan implementasi kode, penyesuaian dengan struktur proyek, serta proses pengerjaan dan pengujian saya lakukan sendiri dengan panduan tutorial 5. Saya juga meninjau kembali hasil bantuan AI agar sesuai dengan materi tutorial dan implementasi yang telah saya kerjakan.
+

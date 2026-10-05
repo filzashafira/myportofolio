@@ -175,7 +175,7 @@ from django.http import JsonResponse
 
 def get_awards_json(request):
     title_query = request.GET.get("title", "").strip()
-    awards = Award.awards.prefetch_related('starred_by').all()
+    awards = Award.objects.prefetch_related('starred_by').all()
 
     if title_query:
         awards = awards.filter(title__icontains=title_query)
@@ -193,8 +193,8 @@ def get_awards_json(request):
                 "title": award.title,
                 "description": award.description,
                 "tech_stack": award.tech_stack,
-                "project_url": award.project_url,
-                "project_image_url": award.award_image_url,
+                "award_url": award.award_url,
+                "award_image_url": award.award_image_url,
                 "star_count": starred_users.count(),
                 "is_starred": is_starred,
                 "starred_by_names": starred_by_names,
