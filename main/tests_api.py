@@ -136,3 +136,52 @@ class ProjectAPITest(APITestCase):
             self.list_url, self.payload, format="json", HTTP_X_CSRFTOKEN=token,
         )
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+
+class EditorRolePermissionAPITest(APITestCase):
+    """
+    Test suite khusus untuk memverifikasi permission IsPortfolioOwnerOrEditorOrReadOnly
+    pada peran Editor.
+    """
+    def setUp(self):
+        self.editor_group = Group.objects.create(name="Editor")
+        self.editor_user = User.objects.create_user(username="editor", password="test-password")
+        self.editor_user.groups.add(self.editor_group)
+
+        self.regular_user = User.objects.create_user(username="regular", password="test-password")
+
+    def test_editor_permission_logic(self):
+        from rest_framework.test import APIRequestFactory
+        from main.permissions import IsPortfolioOwnerOrEditorOrReadOnly
+
+        factory = APIRequestFactory()
+        permission = IsPortfolioOwnerOrEditorOrReadOnly()
+
+        # 1. GET (SAFE_METHODS) - Diizinkan untuk Anonymous / Regular / Editor
+        request_get = factory.get('/')
+        request_get.user = self.regular_user
+        self.assertTrue(permission.has_permission(request_get, None))
+
+        # 2. POST (Create) - Ditolak untuk Editor (Hanya Superuser)
+        request_post = factory.post('/')
+        request_post.user = self.editor_user
+        self.assertFalse(permission.has_permission(request_post, None))
+
+        # 3. PATCH (Update) - Diizinkan untuk Editor
+        request_patch = factory.patch('/')
+        request_patch.user = self.editor_user
+        self.assertTrue(permission.has_permission(request_patch, None))
+
+        # 4. PUT (Update) - Diizinkan untuk Editor
+        request_put = factory.put('/')
+        request_put.user = self.editor_user
+        self.assertTrue(permission.has_permission(request_put, None))
+
+        # 5. DELETE - Ditolak untuk Editor
+        request_delete = factory.delete('/')
+        request_delete.user = self.editor_user
+        self.assertFalse(permission.has_permission(request_delete, None))
+
+        # 6. User Biasa (bukan Editor) Ditolak untuk PATCH
+        request_patch.user = self.regular_user
+        self.assertFalse(permission.has_permission(request_patch, None))

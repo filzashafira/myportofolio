@@ -6,10 +6,18 @@ from rest_framework.decorators import (
 )
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from main.models import Project
-from main.permissions import IsPortfolioOwnerOrReadOnly
-from main.serializers import ProjectSerializer
 
+from main.models import Project  # Impor juga model tugas pilihanmu jika ada, misal: Experience
+from main.permissions import (
+    IsPortfolioOwnerOrReadOnly,
+    IsPortfolioOwnerOrEditorOrReadOnly,  # <-- 1. Tambahkan import permission baru di sini
+)
+from main.serializers import ProjectSerializer  # Impor serializer tugas pilihanmu
+
+
+# ==========================================
+# 1. API PROJECT (Contoh Tutorial Core)
+# ==========================================
 
 @api_view(["GET", "HEAD", "POST"])
 @authentication_classes([SessionAuthentication])
@@ -67,3 +75,23 @@ def project_star(request, project_id):
 
     serializer = ProjectSerializer(project, context={"request": request})
     return Response(serializer.data)
+
+
+# ==========================================
+# 2. API MODEL TUGAS PILIHANMU (Misal: Experience / Education / Award)
+# ==========================================
+# Ulangi pola view di bawah ini untuk model assignment pilihanmu:
+
+@api_view(["GET", "HEAD", "POST"])
+@authentication_classes([SessionAuthentication])
+@permission_classes([IsPortfolioOwnerOrEditorOrReadOnly])  # <-- 2. Pasang Permission Editor di sini
+def assignment_list_api(request):
+    # Logika GET & POST model tugas kamu
+    pass
+
+@api_view(["GET", "HEAD", "PUT", "PATCH", "DELETE"])
+@authentication_classes([SessionAuthentication])
+@permission_classes([IsPortfolioOwnerOrEditorOrReadOnly])  # <-- 3. Pasang Permission Editor di sini
+def assignment_detail_api(request, item_id):
+    # Logika GET, PUT, PATCH, DELETE model tugas kamu
+    pass
