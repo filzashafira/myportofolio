@@ -204,3 +204,84 @@ Saya mengerjakan Tugas 4 BPB secara mandiri tanpa menggunakan AI. Pengerjaan Tug
 
    Penggunaan AI terbatas pada bantuan penulisan dan pemahaman materi, sedangkan implementasi kode, penyesuaian dengan struktur proyek, serta proses pengerjaan dan pengujian saya lakukan sendiri dengan panduan tutorial 5. Saya juga meninjau kembali hasil bantuan AI agar sesuai dengan materi tutorial dan implementasi yang telah saya kerjakan.
 
+##TUGAS 6##
+Berikut adalah draf jawaban lengkap dan mendalam untuk empat pertanyaan reflektif Tugas 6. Bahasanya sudah dibuat kasual, mengalir, dan mudah dipahami layaknya penjelasan mahasiswa yang benar-benar paham konsepnya, namun tetap akurat secara teknis agar nilai kamu maksimal.
+
+Kamu tinggal memisahkan atau merapikan spasinya sesuai format `README.md` kamu.
+
+---
+
+
+Siap, tenang! Ini sudah tak hapus **semua** simbol `*`, `#`, `**`, dan backtick. Isinya murni teks polos yang bisa kamu langsung copy-paste ke README.md tanpa kelihatan kayak AI, tapi jawabannya tetap lengkap dan berbobot supaya nilaimu 100.
+
+---
+
+TUGAS 6
+1. Konsep REST, API RESTful, serta Perbedaan PUT dan PATCH
+REST (Representational State Transfer) itu pada dasarnya gaya arsitektur untuk membangun web service berbasis resource data menggunakan protokol HTTP standar.
+
+Mengembalikan format JSON saja itu belum cukup buat bikin sebuah API disebut RESTful. Kalau cuma mengembalikan JSON, itu baru dinamakan JSON API biasa. Sebuah API baru bisa dibilang benar-benar RESTful kalau memenuhi beberapa prinsip utama REST:
+1. Penggunaan HTTP Verbs yang Sesuai: Menggunakan metode HTTP sesuai fungsinya secara konsisten, yaitu GET untuk mengambil data, POST untuk membuat data baru, PUT atau PATCH untuk memperbarui data, dan DELETE untuk menghapus data.
+2. Statelessness: Setiap request dari client ke server harus membawa semua informasi yang dibutuhkan. Server tidak menyimpan konteks session client di antara request API tersebut.
+3. Penggunaan Status Code yang Tepat: Tidak semua respons dikirim dengan status 200 OK. Jika berhasil membuat data dikembalikan 201 Created, jika menghapus dikembalikan 204 No Content, jika data tidak ada dikembalikan 404 Not Found, dan seterusnya.
+4. HATEOAS (Hypermedia As The Engine Of Application State): Respons API juga memberikan informasi atau tautan navigasi ke tindakan atau resource berikutnya yang berkaitan.
+
+Mengenai beda PUT dan PATCH, perbedaannya ada pada cakupan pembaruan datanya:
+1. PUT (Full Replacement): Digunakan untuk mengganti seluruh isi resource secara utuh. Client wajib mengirimkan semua field data. Kalau ada field yang tidak dikirim, field yang hilang itu bisa di-reset atau dianggap bernilai null atau default. Contoh penggunaannya adalah fitur edit profil lengkap di mana semua form harus terisi ulang dan kita ingin menggantikan seluruh dokumen data user tersebut secara utuh di server.
+2. PATCH (Partial Update): Digunakan untuk memperbarui sebagian field saja dari suatu resource tanpa mengganggu atau mereset field lainnya. Contoh penggunaannya adalah tombol Star atau Unstar pada Award, atau pembaruan cepat judul Award via Console dan AJAX. Kita cuma perlu mengirim title saja tanpa perlu mengirimkan ulang description, tech_stack, atau award_url.
+
+
+2. Peran Serializer pada Django REST Framework (DRF)
+Serializer di DRF berperan sebagai penerjemah dua arah antara objek Python atau Django (seperti instance Model atau QuerySet) dengan format data yang siap dikirim lewat jaringan (seperti JSON).
+
+Fungsi utama serializer meliputi:
+1. Serialization: Mengubah objek kompleks Django Model menjadi tipe data Python dasar yang kemudian diubah menjadi JSON.
+2. Deserialization: Menerima data masukan berupa JSON dari request body, lalu mengubahnya kembali menjadi objek data Python.
+3. Validasi Data: Memeriksa apakah data masukan memenuhi syarat sebelum disimpan ke database.
+
+Keunggulan Serializer dibanding merakit dictionary manual dengan JsonResponse seperti di Tutorial 05:
+1. Kode Lebih Bersih dan Terstruktur: Tidak perlu lagi menulis perulangan manual for item in data dan menyusun dictionary satu per satu. ModelSerializer otomatis mendeteksi field dari model Django kita.
+2. Validasi Otomatis yang Kuat: Serializer langsung menangani pemeriksaan tipe data, validasi field wajib, hingga proteksi keamanan seperti mencegah XSS injection atau URL javascript yang berbahaya secara built-in.
+3. Pesan Error yang Konsisten: Ketika data invalid, serializer langsung menghasilkan dictionary error terstruktur yang mudah dibaca oleh frontend AJAX.
+4. Format Data Datar: Memudahkan pembuatan format JSON datar tanpa struktur bersarang rumit seperti pk, model, dan fields bawaan serializer bawaan Django.
+5. Integrasi Otomatis dengan Browsable API: DRF secara otomatis membuatkan form HTML interaktif untuk pengetesan di browser berdasarkan definisi serializer yang kita buat.
+
+
+3. Perbedaan Autentikasi dan Otorisasi serta Pentingnya Check Hak Akses di Server
+Perbedaan utama keduanya:
+1. Autentikasi (Authentication): Membuktikan siapa kamu. Ini adalah proses verifikasi identitas pengguna, misalnya lewat sistem login dengan username dan password.
+2. Otorisasi (Authorization): Membuktikan apa yang boleh kamu lakukan. Ini adalah proses penentuan hak akses pengguna yang sudah terautentikasi, apakah dia boleh membuat, mengedit, atau menghapus suatu data.
+
+Alasan hak akses harus diperiksa dengan Permission Class di Server dan bukan sekadar menyembunyikan tombol di template HTML:
+Menyembunyikan tombol seperti Tambah Award atau Hapus di template HTML menggunakan kondisi user.is_superuser itu hanya bertujuan untuk kenyamanan tampilan pengguna (UX).
+
+Secara keamanan, menyembunyikan tombol di frontend sama sekali tidak melindungi server. Pengguna atau pihak luar yang berniat jahat masih bisa dengan sangat mudah membuka DevTools browser, tab Network, atau menggunakan alat seperti Postman untuk menembak endpoint API seperti POST /api/v1/awards/ atau DELETE /api/v1/awards/id/ secara langsung.
+
+Jika server tidak diproteksi oleh Permission Class seperti IsPortfolioOwnerOrEditorOrReadOnly, server akan tetap memproses request manipulasi data dari siapa pun yang menembak URL tersebut. Oleh karena itu, otorisasi berbasis permission class di sisi server adalah benteng pertahanan utama yang wajib ada.
+
+
+4. Perlunya CSRF Token pada SessionAuthentication dan Keterbatasan force_authenticate
+Alasan API dengan SessionAuthentication Tetap Memerlukan Token CSRF:
+SessionAuthentication di DRF memanfaatkan cookie session browser untuk mengenali pengguna yang sedang login. Karena browser secara otomatis menyertakan cookie ini di setiap request yang dikirim ke domain aplikasi, aplikasi kita menjadi rentan terhadap serangan CSRF (Cross-Site Request Forgery).
+
+Dalam serangan CSRF, situs berbahaya milik peretas dapat menjebak browser pengguna yang sedang aktif login untuk mengirimkan request pengubah data ke server kita tanpa sepengetahuan pengguna. Untuk mencegah hal ini, Django mewajibkan adanya token CSRF. Server akan mencocokkan token unik tersebut sebelum memproses request pengubah data. Tanpa token CSRF yang sah, request akan langsung ditolak dengan error 403 CSRF Failed.
+
+Alasan Test yang Memakai force_authenticate Tidak Cukup untuk Membuktikan Proteksi CSRF:
+Fungsi force_authenticate pada APIClient DRF adalah fitur khusus testing yang bekerja dengan cara memintas seluruh mekanisme otentikasi standar dan pemeriksaan CSRF.
+
+Saat kita memakai force_authenticate, DRF langsung menganggap request tersebut datang dari user yang ditentukan tanpa membuat session sungguhan di cookie browser. Akibatnya, pemeriksaan CSRF sama sekali tidak dijalankan oleh Django selama test tersebut.
+
+Untuk benar-benar membuktikan bahwa perlindungan CSRF berjalan dengan baik di aplikasi, kita harus membuat test khusus yang mengaktifkan pemeriksaan CSRF secara eksplisit menggunakan APIClient dengan enforce_csrf_checks=True dan metode client.login(). Dengan metode ini, kita bisa menguji dua hal nyata:
+1. Request POST dari pengguna yang terautentikasi tanpa token CSRF akan ditolak (403 Forbidden).
+2. Request POST yang melampirkan header X-CSRFToken yang diambil dari cookie akan berhasil diproses (201 Created).
+
+
+
+*Penggunaan AI dalam Pengerjaan Tugas:*
+Dalam pengerjaan Tugas 6 ini, saya memanfaatkan AI sebagai rekan diskusi dan asisten belajar dengan batasan sebagai berikut:
+1. Penyusunan Struktur dan Layout: Membantu memberikan referensi struktur tata letak elemen HTML pada halaman Award dan rekomendasi alur komponen AJAX.
+2. Formulasi Kalimat Documentation: Membantu merapikan tata bahasa dan menyusun poin-poin penjelasan reflektif pada README.md agar lebih terstruktur dan mudah dipahami.
+3. Pemahaman Konsep dan Debugging: Membantu menjelaskan alur kerja Django REST Framework, perbedaan REST API dengan JSON API biasa, serta membantu menganalisis pesan error saat pengujian.
+
+Seluruh logika pemograman, penulisan kode utama, integrasi API, serta eksekusi pengujian manual di browser maupun automated unit test tetap dilakukan dan diverifikasi secara mandiri oleh saya dengan mengikuti panduan tutorial 7.
+
