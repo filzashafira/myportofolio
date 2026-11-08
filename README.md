@@ -285,3 +285,5 @@ Dalam pengerjaan Tugas 6 ini, saya memanfaatkan AI sebagai rekan diskusi dan asi
 
 Seluruh logika pemograman, penulisan kode utama, integrasi API, serta eksekusi pengujian manual di browser maupun automated unit test tetap dilakukan dan diverifikasi secara mandiri oleh saya dengan mengikuti panduan tutorial 7.
 
+
+Notes: Kak, mohon maaf sebelumnya saya lupa untuk melakukan commit di setiap langkah pengerjaan karena terlalu terfokus mengikuti panduan tutorial sampai akhir. Namun, seluruh alur kode dari backend DRF, frontend AJAX, hingga unit test sudah diuji dan dipastikan berjalan dengan baik.
