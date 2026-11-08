@@ -7,16 +7,16 @@ from rest_framework.decorators import (
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
-from main.models import Project  # Impor juga model tugas pilihanmu jika ada, misal: Experience
+from main.models import Project, Award  
 from main.permissions import (
     IsPortfolioOwnerOrReadOnly,
-    IsPortfolioOwnerOrEditorOrReadOnly,  # <-- 1. Tambahkan import permission baru di sini
+    IsPortfolioOwnerOrEditorOrReadOnly,
 )
-from main.serializers import ProjectSerializer  # Impor serializer tugas pilihanmu
+from main.serializers import ProjectSerializer, AwardSerializer 
 
 
 # ==========================================
-# 1. API PROJECT (Contoh Tutorial Core)
+# 1. API PROJECT (Tutorial 07)
 # ==========================================
 
 @api_view(["GET", "HEAD", "POST"])
@@ -55,7 +55,7 @@ def project_detail(request, project_id):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
     serializer = ProjectSerializer(
-        project, data=request.data, partial=request.method == "PATCH",
+        project, data=request.data, partial=(request.method == "PATCH"),
         context={"request": request},
     )
     serializer.is_valid(raise_exception=True)
@@ -78,20 +78,62 @@ def project_star(request, project_id):
 
 
 # ==========================================
-# 2. API MODEL TUGAS PILIHANMU (Misal: Experience / Education / Award)
+# 2. API AWARD (Tugas 6)
 # ==========================================
-# Ulangi pola view di bawah ini untuk model assignment pilihanmu:
 
 @api_view(["GET", "HEAD", "POST"])
 @authentication_classes([SessionAuthentication])
-@permission_classes([IsPortfolioOwnerOrEditorOrReadOnly])  # <-- 2. Pasang Permission Editor di sini
-def assignment_list_api(request):
-    # Logika GET & POST model tugas kamu
-    pass
+@permission_classes([IsPortfolioOwnerOrEditorOrReadOnly]) 
+def award_list(request):
+    if request.method in ("GET", "HEAD"):
+        awards = Award.objects.prefetch_related("starred_by").order_by("title", "id")
+        title = request.query_params.get("title", "").strip()
+        if title:
+            awards = awards.filter(title__icontains=title)
+        serializer = AwardSerializer(
+            awards, many=True, context={"request": request},
+        )
+        return Response(serializer.data)
+
+    serializer = AwardSerializer(data=request.data, context={"request": request})
+    serializer.is_valid(raise_exception=True)
+    serializer.save()
+    return Response(serializer.data, status=status.HTTP_201_CREATED)
+
 
 @api_view(["GET", "HEAD", "PUT", "PATCH", "DELETE"])
 @authentication_classes([SessionAuthentication])
-@permission_classes([IsPortfolioOwnerOrEditorOrReadOnly])  # <-- 3. Pasang Permission Editor di sini
-def assignment_detail_api(request, item_id):
-    # Logika GET, PUT, PATCH, DELETE model tugas kamu
-    pass
+@permission_classes([IsPortfolioOwnerOrEditorOrReadOnly])  # <-- Menggunakan permission Editor
+def award_detail(request, award_id):
+    award = get_object_or_404(
+        Award.objects.prefetch_related("starred_by"), pk=award_id,
+    )
+    if request.method in ("GET", "HEAD"):
+        serializer = AwardSerializer(award, context={"request": request})
+        return Response(serializer.data)
+
+    if request.method == "DELETE":
+        award.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+    serializer = AwardSerializer(
+        award, data=request.data, partial=(request.method == "PATCH"),
+        context={"request": request},
+    )
+    serializer.is_valid(raise_exception=True)
+    serializer.save()
+    return Response(serializer.data)
+
+
+@api_view(["POST"])
+@authentication_classes([SessionAuthentication])
+@permission_classes([IsAuthenticated])
+def award_star(request, award_id):
+    award = get_object_or_404(Award, pk=award_id)
+    if award.starred_by.filter(pk=request.user.pk).exists():
+        award.starred_by.remove(request.user)
+    else:
+        award.starred_by.add(request.user)
+
+    serializer = AwardSerializer(award, context={"request": request})
+    return Response(serializer.data)
